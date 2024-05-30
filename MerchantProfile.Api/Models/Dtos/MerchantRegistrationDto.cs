@@ -1,13 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MerchantProfile.Api.Models;
-public class Merchant
+namespace MerchantProfile.Api.Models.Dtos;
+
+public class MerchantRegistrationDto
 {
-    public Merchant() {}
-
-    [Key]
-    public string Id { get; set; } = Guid.NewGuid().ToString();
-
     [Required(ErrorMessage = "Name is required")]
     [StringLength(100, ErrorMessage = "Name length can't be more than 100.")]
     public string Name { get; set; }
@@ -29,8 +25,6 @@ public class Merchant
     [StringLength(200, ErrorMessage = "Address length can't be more than 200.")]
     public string Address { get; set; }
 
-    [Required]
     public string Password { get; set; }
 
-    public string? signature { get; set; }
 }

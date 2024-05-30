@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MerchantProfile.Api.Migrations
 {
     [DbContext(typeof(MerchantDbContext))]
-    [Migration("20240526034105_initdb")]
-    partial class initdb
+    [Migration("20240601013046_initDb")]
+    partial class initDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -47,8 +47,15 @@ namespace MerchantProfile.Api.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
 
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Phone")
                         .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("signature")
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
@@ -58,22 +65,24 @@ namespace MerchantProfile.Api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "bda30663-e042-40a8-94a4-9c6f2a21764b",
+                            Id = "e9b10673-5bf5-4c7c-be43-49740b7c6395",
                             Address = "123 Main St, Anytown, USA",
                             Description = "First Merchant Description",
                             Email = "sample@gmail.com",
                             LinkWebsite = "http://www.merchantone.com",
                             Name = "Merchant One",
+                            Password = "20ur290ur2ur824r2r2r2",
                             Phone = "123-456-7890"
                         },
                         new
                         {
-                            Id = "b51de648-7167-4360-ab8e-863bf3388ec0",
+                            Id = "39ae71a3-1f29-4c5e-a0e8-12e06b70f7b5",
                             Address = "456 Elm St, Othertown, USA",
                             Description = "Second Merchant Description",
                             Email = "sample2@gmail.com",
                             LinkWebsite = "http://www.merchanttwo.com",
                             Name = "Merchant Two",
+                            Password = "20ur290ur2ur8dd3d324r2r2r2",
                             Phone = "098-765-4321"
                         });
                 });

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Configuration;
 
@@ -35,7 +36,8 @@ public partial class MerchantDbContext : DbContext
                 Email = "sample@gmail.com",
                 Description = "First Merchant Description",
                 LinkWebsite = "http://www.merchantone.com",
-                Address = "123 Main St, Anytown, USA"
+                Address = "123 Main St, Anytown, USA",
+                Password = "20ur290ur2ur824r2r2r2",
             },
             new Merchant
             {
@@ -44,7 +46,9 @@ public partial class MerchantDbContext : DbContext
                 Email = "sample2@gmail.com",
                 Description = "Second Merchant Description",
                 LinkWebsite = "http://www.merchanttwo.com",
-                Address = "456 Elm St, Othertown, USA"
+                Address = "456 Elm St, Othertown, USA",
+                Password = "20ur290ur2ur8dd3d324r2r2r2",
+
             }
         );
     }

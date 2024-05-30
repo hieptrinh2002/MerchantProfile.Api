@@ -4,8 +4,6 @@ namespace MerchantProfile.Api.Models.Dtos
 {
     public class MerchantDto
     {
-        public int? id { get; set; }
-
         [Required(ErrorMessage = "Name is required")]
         [StringLength(100, ErrorMessage = "Name length can't be more than 100.")]
         public string Name { get; set; }

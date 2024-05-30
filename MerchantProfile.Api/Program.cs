@@ -1,3 +1,4 @@
+using MerchantProfile.Api.Middleware;
 using MerchantProfile.Api.Models;
 using MerchantProfile.Api.Services;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +23,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("OpenConnect", builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -30,6 +37,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+
+//app.UseMiddleware<AuthenticationMiddleware>();
 
 app.UseHttpsRedirection();
 

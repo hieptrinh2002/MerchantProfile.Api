@@ -10,7 +10,7 @@ using MerchantProfile.Api.Common;
 
 namespace MerchantProfile.Api.Controllers
 {
-    [Route("api/marchant-profiles")]
+    [Route("api/merchant-profiles")]
     [ApiController]
     public class MerchantController : ControllerBase
     {
@@ -39,11 +39,11 @@ namespace MerchantProfile.Api.Controllers
             return Ok(response);
         }
 
-        // GET: api/marchant-profiles/5
+        // GET: api/merchant-profiles/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Merchant>> GetMerchant(int id)
+        public async Task<ActionResult<Merchant>> GetMerchant(string id)
         {
-            var merchant = await _context.Merchants.FindAsync(id);
+            var merchant = await _context.Merchants.Where(u => u.Id == id).FirstOrDefaultAsync();
 
             if (merchant == null)
             {

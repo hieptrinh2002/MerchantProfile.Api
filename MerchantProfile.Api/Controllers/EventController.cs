@@ -29,7 +29,7 @@ namespace MerchantProfile.Api.Controllers
             return await _eventService.CreateEventAsync(eventRequest);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{merchantId}")]
 
         public async Task<IActionResult> getAllEvent(string merchantId)
         {
