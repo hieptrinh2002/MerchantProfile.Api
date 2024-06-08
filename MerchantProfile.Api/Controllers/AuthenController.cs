@@ -43,7 +43,15 @@ namespace MerchantProfile.Api.Controllers
                 );
             }
 
-            Merchant newMerchant = _mapper.Map<Merchant>(dto);
+            Merchant newMerchant = new Merchant();
+
+            newMerchant.Name = dto.Name;
+            newMerchant.Email = dto.Email;
+            newMerchant.Password = dto.Password;
+            newMerchant.Phone = dto.Phone;
+            newMerchant.Description = dto.Description;
+            newMerchant.LinkWebsite = dto.LinkWebsite;
+            newMerchant.Address = dto.Address;
 
             var data = GenarateDataSignature(newMerchant.Email, newMerchant.Password);
 
@@ -53,9 +61,9 @@ namespace MerchantProfile.Api.Controllers
 
             newMerchant.Password = BCrypt.Net.BCrypt.HashPassword(dto.Password);
 
-            await _context.Merchants.AddAsync(newMerchant);
+            _context.Merchants.Add(newMerchant);
 
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
 
             var response = new
             {

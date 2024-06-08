@@ -56,17 +56,10 @@ namespace MerchantProfile.Api.Middleware
             catch (Exception ex)
             {
                 ////Log exception or handle it as needed
-                //Console.WriteLine($"Exception caught in middleware: {ex.Message}");
-                //context.Response.StatusCode = 500;
-                //context.Response.ContentType = "application/json";
-                //await context.Response.WriteAsync("{\"message\": \"Internal server error.\"}");
-
-               
-                context.Response.Clear();
+                Console.WriteLine($"Exception caught in middleware: {ex.Message}");
                 context.Response.StatusCode = 500;
                 context.Response.ContentType = "application/json";
-                await context.Response.WriteAsync(ex.Message);
-                return;
+                await context.Response.WriteAsync("{\"message\": \"Internal server error.\"}");
             }
         }
     }

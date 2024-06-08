@@ -62,46 +62,6 @@ namespace MerchantProfile.Api.Controllers
             });
         }
 
-        // POST: api/marchant-profiles
-        [HttpPost]
-        public async Task<ActionResult> PostMerchant(MerchantDto merchantDto)
-        {
-            Merchant newMerchant = new Merchant();
-            try
-            {
-                if(MerchantExistsWithEmail(merchantDto.Email))
-                {
-                    return Ok(
-                        new{
-                            status = Status.MerchantExists,
-                            message = ResponseMess.MerchantEmailExists,
-                        }
-                    );
-                }
-                //VALIDATION_ERROR
-
-                newMerchant = _mapper.Map<Merchant>(merchantDto);
-               
-                _context.Merchants.Add(newMerchant);
-                await _context.SaveChangesAsync();
-                return Ok(
-                    new{
-                        status = Status.Success,
-                        message = ResponseMess.CreateMerchantSuccess,
-                        data = newMerchant
-                    }
-                );
-            }
-            catch (Exception ex)
-            {
-                return Ok(
-                    new{
-                        status = Status.Failed,
-                        message = ResponseMess.CreateMerchantFailed,
-                    }
-                );
-            }
-        }
 
         // PUT: api/marchant-profiles/5
         [HttpPut("{id}")]
