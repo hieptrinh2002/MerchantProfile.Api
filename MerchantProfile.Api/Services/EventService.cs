@@ -1,6 +1,7 @@
 ﻿using MerchantProfile.Api.Helper;
 using MerchantProfile.Api.Models;
 using MerchantProfile.Api.Models.Dtos;
+using MerchantProfile.Api.Services.IServices;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;

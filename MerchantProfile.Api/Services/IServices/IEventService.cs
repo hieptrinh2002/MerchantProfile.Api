@@ -2,7 +2,7 @@
 using MerchantProfile.Api.Models.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
-namespace MerchantProfile.Api.Services;
+namespace MerchantProfile.Api.Services.IServices;
 
 public interface IEventService
 {

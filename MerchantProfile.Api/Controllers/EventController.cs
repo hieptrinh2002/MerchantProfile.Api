@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using MerchantProfile.Api.Models;
 using MerchantProfile.Api.Models.Dtos;
-using MerchantProfile.Api.Services;
+using MerchantProfile.Api.Services.IServices;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;

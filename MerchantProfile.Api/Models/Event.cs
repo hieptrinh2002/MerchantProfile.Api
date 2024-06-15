@@ -5,7 +5,7 @@ namespace MerchantProfile.Api.Models;
 public class Event
 {
     [Key]
-    public string Id { get; set; } = Guid.NewGuid().ToString();
+    public string Id;
     public string merchantId { get; set; }
 
     public string title { get; set; }

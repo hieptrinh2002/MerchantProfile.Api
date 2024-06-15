@@ -9,6 +9,8 @@ namespace MerchantProfile.Api.Helper
         public AutoMapper()
         {
             CreateMap<Merchant, MerchantDto>().ReverseMap();
+            CreateMap<Merchant, RegisterDto>().ReverseMap();
+
         }
     }
 }

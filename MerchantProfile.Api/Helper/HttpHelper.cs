@@ -12,7 +12,7 @@ public static class HttpHelper
     public static async Task<IActionResult> PostJsonAsync<T>(HttpClient httpClient, string url, T requestData)
     {
         var jsonContent = JsonSerializer.Serialize(requestData);
-        var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+        var content = new StringContent(JsonSerializer.Serialize(requestData), Encoding.UTF8, "application/json");
 
         var response = await httpClient.PostAsync(url, content);
         if (response.IsSuccessStatusCode)
@@ -30,8 +30,17 @@ public static class HttpHelper
     public static async Task<IActionResult> GetAsync(HttpClient httpClient, string url)
     {
         var response = await httpClient.GetAsync(url);
-        response.EnsureSuccessStatusCode();
-        string responseData = await response.Content.ReadAsStringAsync();
-        return new OkObjectResult(responseData);
+
+        if (response.IsSuccessStatusCode)
+        {
+            response.EnsureSuccessStatusCode();
+            string responseData = await response.Content.ReadAsStringAsync();
+            return new OkObjectResult(responseData);
+        }
+        else
+        {
+            var errorContent = await response.Content.ReadAsStringAsync();
+            return new ObjectResult(errorContent) { StatusCode = (int)response.StatusCode };
+        }
     }
 }

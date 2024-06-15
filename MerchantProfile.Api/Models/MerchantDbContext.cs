@@ -38,6 +38,7 @@ public partial class MerchantDbContext : DbContext
                 LinkWebsite = "http://www.merchantone.com",
                 Address = "123 Main St, Anytown, USA",
                 Password = "20ur290ur2ur824r2r2r2",
+                Username = "hiepth123"
             },
             new Merchant
             {
@@ -48,7 +49,7 @@ public partial class MerchantDbContext : DbContext
                 LinkWebsite = "http://www.merchanttwo.com",
                 Address = "456 Elm St, Othertown, USA",
                 Password = "20ur290ur2ur8dd3d324r2r2r2",
-
+                Username = "hiepth321"
             }
         );
     }

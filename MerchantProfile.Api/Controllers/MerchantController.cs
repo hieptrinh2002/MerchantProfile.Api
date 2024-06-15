@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using MerchantProfile.Api.Common;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MerchantProfile.Api.Controllers
 {

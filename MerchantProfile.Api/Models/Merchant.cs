@@ -31,6 +31,5 @@ public class Merchant
 
     [Required]
     public string Password { get; set; }
-
-    public string? signature { get; set; }
+    public string Username { get; set; }
 }
