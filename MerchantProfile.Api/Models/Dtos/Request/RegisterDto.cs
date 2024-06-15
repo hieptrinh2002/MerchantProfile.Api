@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Runtime.CompilerServices;
 
-namespace MerchantProfile.Api.Models.Dtos
+namespace MerchantProfile.Api.Models.Dtos.Request
 {
     public class RegisterDto
     {

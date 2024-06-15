@@ -1,5 +1,7 @@
 ﻿using MerchantProfile.Api.Models;
-using MerchantProfile.Api.Models.Dtos;
+using MerchantProfile.Api.Models.Dtos.Request;
+using MerchantProfile.Api.Models.Dtos.Response;
+using MerchantProfile.Api.Models.Entities;
 using MerchantProfile.Api.Services.IServices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -21,7 +23,7 @@ namespace MerchantProfile.Api.Services
             _logger = logger;
         }
 
-        public async Task<(bool IsSuccess, string Message, object Data)> LoginAsync(LoginDto dto)
+        public async Task<(bool IsSuccess, string Message, TokenResponse Data)> LoginAsync(LoginDto dto)
         {
             _logger.LogInformation("Login attempt for user: {Username}", dto?.Username);
 
@@ -50,10 +52,10 @@ namespace MerchantProfile.Api.Services
 
             _logger.LogInformation("Token generated successfully for user: {Username}", dto.Username);
 
-            return (true, "Generate token successfully", new
+            return (true, "Login successfully !", new TokenResponse
             {
                 AccessToken = token,
-                merchantId = merchant.Id,
+                MerchantId = merchant.Id,
                 IssuedAt = DateTime.UtcNow,
                 ExpiredAt = expiration
             });
@@ -64,11 +66,12 @@ namespace MerchantProfile.Api.Services
             _logger.LogDebug("Generating claims for user: {Username}", merchant.Username);
 
             return new List<Claim> {
-            new Claim(JwtRegisteredClaimNames.Sub, _configuration["Jwt:Subject"]),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
-            new Claim(ClaimTypes.Name, merchant.Username),
-        };
+                new Claim(JwtRegisteredClaimNames.Sub, _configuration["Jwt:Subject"]),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
+                new Claim(ClaimTypes.Name, merchant.Username),
+                new Claim("MerchantId", merchant.Id.ToString())
+            };
         }
 
         public (string token, DateTime expire, string tokenId) GenerateToken(IEnumerable<Claim> claims)
@@ -77,12 +80,14 @@ namespace MerchantProfile.Api.Services
 
             var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
             var _TokenExpiryTimeInHour = Convert.ToInt64(_configuration["Jwt:TokenExpiryTimeInHour"]);
+            var _TokenExpiryTimeInDays = Convert.ToInt64(_configuration["Jwt:TokenExpiryTimeInDay"]);
+
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Issuer = _configuration["Jwt:Issuer"],
                 Audience = _configuration["Jwt:Audience"],
-                Expires = DateTime.UtcNow.AddHours(_TokenExpiryTimeInHour),
+                Expires = DateTime.UtcNow.AddDays(_TokenExpiryTimeInDays),
                 SigningCredentials = new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256),
                 Subject = new ClaimsIdentity(claims)
             };

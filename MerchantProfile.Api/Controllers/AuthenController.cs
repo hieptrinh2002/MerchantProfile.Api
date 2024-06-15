@@ -1,15 +1,11 @@
-﻿using AutoMapper;
-using MerchantProfile.Api.Models.Dtos;
+﻿using MerchantProfile.Api.Models.Dtos.Request;
 using MerchantProfile.Api.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Threading.Tasks;
 
 namespace MerchantProfile.Api.Controllers
 {
     [Route("api/merchant-profiles")]
-    [ApiController]
+    [ApiController] 
     public class AuthenController : ControllerBase
     {
         private readonly IAuthenService _authenServices;
@@ -31,11 +27,22 @@ namespace MerchantProfile.Api.Controllers
                 var result = await _authenServices.LoginAsync(dto);
                 if (result.IsSuccess)
                 {
+                    var accessToken = result.Data.AccessToken;
+                    // Lưu token vào cookie
+                    HttpContext.Response.Cookies.Append("merchant_jwt", accessToken, new CookieOptions
+                    {
+                        HttpOnly = true,
+                        Secure = false,
+                        SameSite = SameSiteMode.Lax,
+                        Expires = DateTime.UtcNow.AddDays(7),
+                        IsEssential = true
+                    });
+
                     _logger.LogInformation("Login successful for user: {Username}", dto.Username);
                     return Ok(new
                     {
-                        Message = result.Message,
-                        Token = result.Data
+                        message = result.Message,
+                        data = result.Data
                     });
                 }
                 _logger.LogWarning("Login failed for user: {Username}, Message: {Message}", dto.Username, result.Message);

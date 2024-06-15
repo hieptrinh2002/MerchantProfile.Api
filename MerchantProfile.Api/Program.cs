@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using MerchantProfile.Api.Services.IServices;
+using MerchantProfile.Api.Middleware;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +22,7 @@ builder.Services.AddDbContext<MerchantDbContext>(option =>
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddHttpClient();
 builder.Services.AddScoped<IEventService, EventService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IAuthenService, AuthenService>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -34,8 +36,12 @@ builder.Services.AddAuthentication(options =>
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 })
+    //.AddCookie(options =>
+    //{
+    //    options.Cookie.Name = "merchant_jwt";
+    //})
 
-// Adding Jwt Bearer  
+    // Adding Jwt Bearer  
     .AddJwtBearer(options =>
     {
         options.TokenValidationParameters = new TokenValidationParameters
@@ -48,14 +54,34 @@ builder.Services.AddAuthentication(options =>
             ValidAudience = builder.Configuration["Jwt:Audience"],
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
         };
+
+        //options.Events = new JwtBearerEvents
+        //{
+        //    OnMessageReceived = ctx =>
+        //    {
+        //        ctx.Request.Cookies.TryGetValue("merchant_jwt", out var accessToken);
+        //        if (!string.IsNullOrEmpty(accessToken))
+        //            ctx.Token = accessToken;
+
+        //        return Task.CompletedTask;
+        //    }
+        //};
+
     });
 
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("OpenConnect", builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+    options.AddPolicy("AllowAll",
+        builder =>
+        {
+            builder
+                   .WithOrigins("http://localhost:8000")
+                   .AllowAnyHeader()
+                   .AllowAnyMethod()
+                   .AllowCredentials(); // Cho phép cookie
+        });
 });
-
 
 var app = builder.Build();
 
@@ -73,7 +99,10 @@ app.UseHttpsRedirection();
 
 app.UseHttpLogging();
 
+app.UseCors("AllowAll");
+
 app.UseAuthorization();
+
 
 app.MapControllers();
 

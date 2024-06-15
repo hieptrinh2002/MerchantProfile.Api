@@ -1,4 +1,4 @@
-﻿namespace MerchantProfile.Api.Models.Dtos
+﻿namespace MerchantProfile.Api.Models.Dtos.Request
 {
     public class LoginDto
     {

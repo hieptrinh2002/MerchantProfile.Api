@@ -8,6 +8,8 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using MerchantProfile.Api.Common;
 using Microsoft.AspNetCore.Authorization;
+using MerchantProfile.Api.Models.Entities;
+using MerchantProfile.Api.Models.Dtos.Response;
 
 namespace MerchantProfile.Api.Controllers
 {
@@ -59,7 +61,7 @@ namespace MerchantProfile.Api.Controllers
             {
                 status = Status.Success,
                 message = ResponseMess.GetOneMerchantSuccess,
-                data = merchant
+                data = _mapper.Map<GetMerchantByIdResponseDto>(merchant)
             });
         }
 

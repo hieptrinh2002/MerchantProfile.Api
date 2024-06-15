@@ -6,5 +6,4 @@ public static class Status
     public const string Failed = "FAILED";
     public const string MerchantNotFound = "MERCHANT_NOT_FOUND";
     public const string MerchantExists = "MERCHANT_EXISTS";
-
 }

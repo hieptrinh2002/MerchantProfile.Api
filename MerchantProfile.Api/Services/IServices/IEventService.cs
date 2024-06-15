@@ -1,16 +1,17 @@
-﻿using MerchantProfile.Api.Models;
-using MerchantProfile.Api.Models.Dtos;
+﻿using MerchantProfile.Api.Models.Dtos.Request;
+using MerchantProfile.Api.Models.Dtos.Response;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MerchantProfile.Api.Services.IServices;
 
 public interface IEventService
 {
-    Task<IActionResult> CreateEventAsync(EventDto eventRequest);
+    Task<IActionResult> CreateEventAsync(CreateEventDto eventRequest);
 
-    Task<IActionResult> GetAllEventAsync(string merchantId);
+    Task<IActionResult> UpdateEventAsync(UpdateEventDto updateRequest);
 
-    Task<IActionResult> GetTestAsync(string merchantId);
+    Task<GetListEventResponseDTo?> GetAllEventAsync(string merchantId);
 
-    Task<IActionResult> CreateTestAsync(PostDto eventRequest);
+    Task<GetEventByIdResponseDto> GetEventByIdAsync(string eventId);
+
 }

@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MerchantProfile.Api.Models;
+namespace MerchantProfile.Api.Models.Entities;
 public class Merchant
 {
-    public Merchant() {}
+    public Merchant() { }
 
     [Key]
     public string Id { get; set; } = Guid.NewGuid().ToString();

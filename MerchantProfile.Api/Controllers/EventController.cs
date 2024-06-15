@@ -1,53 +1,58 @@
-﻿using AutoMapper;
-using MerchantProfile.Api.Models;
-using MerchantProfile.Api.Models.Dtos;
+﻿using MerchantProfile.Api.Models;
+using MerchantProfile.Api.Models.Dtos.Request;
 using MerchantProfile.Api.Services.IServices;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Text;
-using System.Text.Json;
+
 
 namespace MerchantProfile.Api.Controllers
 {
-    [Route("api/merchant-profiles/events")]
+    [Authorize]
+    [Route("api/merchant-profiles")]
     [ApiController]
     public class EventController : ControllerBase
     {
-        private readonly MerchantDbContext _context;
-        private readonly IMapper _mapper;
         private readonly IEventService _eventService;
-        public EventController(MerchantDbContext context, IMapper mapper, IEventService eventService)
+
+        public EventController(IEventService eventService)
         {
-            _context = context;
-            _mapper = mapper;
             _eventService = eventService;
         }
 
-        [HttpPost("create")]
-        public async Task<IActionResult> CreateEvent([FromBody] EventDto eventRequest)
+        [HttpPost("events/create")]
+        public async Task<IActionResult> CreateEvent([FromBody] CreateEventDto eventRequest)
         {
+
+            var merchantIdClaim = User.Claims.FirstOrDefault(c => c.Type == "MerchantId");
+
+            var t = _eventService.CreateEventAsync(eventRequest);
             return await _eventService.CreateEventAsync(eventRequest);
         }
 
-        [HttpGet("{merchantId}")]
+        [HttpPut("events/update")]
+        public async Task<IActionResult> UpdateEvent([FromBody] UpdateEventDto eventRequest)
+        {
+            return await _eventService.UpdateEventAsync(eventRequest);
+        }
+
+        [HttpGet("{merchantId}/events")]
 
         public async Task<IActionResult> getAllEvent(string merchantId)
         {
-            return await _eventService.GetAllEventAsync(merchantId);
+            //check event có phải do merchant này tạo không? => /....
+            var merchantIdClaim = User.Claims.FirstOrDefault(c => c.Type == "MerchantId");
+
+
+            var response = await _eventService.GetAllEventAsync(merchantId);
+            return Ok(response);
         }
 
-        [HttpGet("test/{id}")]
+        [HttpGet("events/{eventId}")]
 
-        public async Task<IActionResult> getTesst(string id)
+        public async Task<IActionResult> getEventById(string eventId)
         {
-            return await _eventService.GetTestAsync(id);
-        }
-
-        [HttpPost("test")]
-        public async Task<IActionResult> test([FromBody] PostDto dto)
-        {
-            var result =  await _eventService.CreateTestAsync(dto);
-            return result;
+            var response = await _eventService.GetEventByIdAsync(eventId);
+            return Ok(response);
         }
     }
 }

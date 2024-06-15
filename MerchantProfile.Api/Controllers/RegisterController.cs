@@ -1,13 +1,15 @@
 ﻿using AutoMapper;
+using MerchantProfile.Api.Common;
 using MerchantProfile.Api.Models;
-using MerchantProfile.Api.Models.Dtos;
+using MerchantProfile.Api.Models.Dtos.Request;
+using MerchantProfile.Api.Models.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace MerchantProfile.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/merchant-profiles/register")]
     [ApiController]
     public class RegisterController : ControllerBase
     {
@@ -35,14 +37,16 @@ namespace MerchantProfile.Api.Controllers
 
                 return Ok(new
                 {
-                    Message = "register successfully!"
+                    status = Status.Success,
+                    message = "register successfully!"
                 });
             }
             catch (Exception ex)
             {
                 return Conflict(new
                 {
-                    Message = "can't create new user!"
+                    status = Status.Failed,
+                    Message = "can't create new merchant !"
                 });
                 throw;
             }
