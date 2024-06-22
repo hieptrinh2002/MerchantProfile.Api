@@ -22,10 +22,6 @@ namespace MerchantProfile.Api.Controllers
         [HttpPost("events/create")]
         public async Task<IActionResult> CreateEvent([FromBody] CreateEventDto eventRequest)
         {
-
-            var merchantIdClaim = User.Claims.FirstOrDefault(c => c.Type == "MerchantId");
-
-            var t = _eventService.CreateEventAsync(eventRequest);
             return await _eventService.CreateEventAsync(eventRequest);
         }
 

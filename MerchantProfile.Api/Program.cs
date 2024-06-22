@@ -24,6 +24,8 @@ builder.Services.AddHttpClient();
 builder.Services.AddScoped<IEventService, EventService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IAuthenService, AuthenService>();
+builder.Services.AddScoped<IPromotionService, PromotionService>();
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
